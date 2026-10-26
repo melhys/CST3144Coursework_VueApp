@@ -1,0 +1,169 @@
+:root {
+    --green: #0b3d2e;
+    --peach: #fbede4;
+    --orange: #d97706;
+}
+
+body {
+    color: #111827;
+}
+
+/* Header */
+.site-header {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-decoration: none;
+}
+
+.btn-cart {
+    background: var(--green);
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.5rem 1.25rem;
+}
+
+.btn-cart:hover:not(:disabled) {
+    background: #14573f;
+    color: #fff;
+}
+
+.btn-cart:disabled {
+    background: #d1d5db;
+    color: #fff;
+    opacity: 1;
+}
+
+/* Hero */
+.hero {
+    background: var(--peach);
+}
+
+.hero h1 {
+    color: var(--green);
+    font-weight: 700;
+}
+
+/* Sort */
+.pill-select {
+    width: auto;
+    border: 0;
+    border-radius: 999px;
+    background-color: #f3f4f6;
+    padding-left: 1rem;
+}
+
+/* Cards */
+.lesson-card {
+    border: 0;
+}
+
+.lesson-img-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #f3f4f6;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.lesson-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #fff;
+    color: var(--green);
+}
+
+.category-badge-static {
+    background: var(--peach);
+    color: var(--green);
+}
+
+.lesson-title {
+    cursor: pointer;
+}
+
+.price {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.price-lg {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.low-stock {
+    color: var(--orange);
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn-outline-add {
+    background: #fff;
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 999px;
+}
+
+.btn-outline-add:hover:not(:disabled) {
+    background: var(--green);
+    color: #fff;
+}
+
+.btn-outline-add:disabled {
+    border-color: #d1d5db;
+    color: #9ca3af;
+    opacity: 1;
+}
+
+.btn-green {
+    background: var(--green);
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.6rem;
+}
+
+.btn-green:hover:not(:disabled) {
+    background: #14573f;
+    color: #fff;
+}
+
+.btn-green:disabled {
+    background: #d1d5db;
+    color: #fff;
+    opacity: 1;
+}
+
+/* Modal image */
+.modal-img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+/* Cart page */
+.cart-panel {
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.field-error {
+    color: #dc2626;
+    font-size: 0.8rem;
+    min-height: 1rem;
+    margin: 4px 0 12px;
+}

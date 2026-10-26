@@ -1,0 +1,206 @@
+{
+    "lessons": [
+        {
+            "id": "L001",
+            "topic": "Piano",
+            "category": "Music",
+            "description": "Learn the basics of piano playing, from reading sheet music to performing simple pieces.",
+            "location": "8 Jasmine Lane, Quatre Bornes, Mauritius",
+            "price": 500,
+            "space": 5,
+            "icon": "fa-solid fa-music",
+            "image": "images/piano.jpg",
+            "teacherId": "T001"
+        },
+        {
+            "id": "L002",
+            "topic": "Literature",
+            "category": "Academic",
+            "description": "Explore classic and modern literature, develop critical reading skills, and improve essay writing.",
+            "location": "3 Story Road, Curepipe, Mauritius",
+            "price": 300,
+            "space": 6,
+            "icon": "fa-solid fa-book-open",
+            "image": "images/literature.jpg",
+            "teacherId": "T002"
+        },
+        {
+            "id": "L003",
+            "topic": "Guitar",
+            "category": "Music",
+            "description": "Master guitar chords, strumming patterns, and play your favourite songs from day one.",
+            "location": "8 Jasmine Lane, Quatre Bornes, Mauritius",
+            "price": 400,
+            "space": 4,
+            "icon": "fa-solid fa-guitar",
+            "image": "images/guitar.jpg",
+            "teacherId": "T003"
+        },
+        {
+            "id": "L004",
+            "topic": "Drawing and Painting",
+            "category": "Art",
+            "description": "Develop your artistic skills with sketching, colour theory, and painting techniques.",
+            "location": "14 Canvas Road, Beau Bassin, Mauritius",
+            "price": 250,
+            "space": 7,
+            "icon": "fa-solid fa-palette",
+            "image": "images/painting.jpg",
+            "teacherId": "T004"
+        },
+        {
+            "id": "L005",
+            "topic": "Volleyball",
+            "category": "Sports",
+            "description": "Improve your volleyball skills including serving, passing, setting, and team play.",
+            "location": "7 Ace Court, Phoenix, Mauritius",
+            "price": 450,
+            "space": 6,
+            "icon": "fa-solid fa-volleyball",
+            "image": "images/volleyball.jpg",
+            "teacherId": "T005"
+        },
+        {
+            "id": "L006",
+            "topic": "French Language",
+            "category": "Languages",
+            "description": "Build confidence in French conversation, grammar, and vocabulary through interactive lessons.",
+            "location": "12 Coral Bay Road, Flic en Flac, Mauritius",
+            "price": 250,
+            "space": 5,
+            "icon": "fa-solid fa-language",
+            "image": "images/french.jpg",
+            "teacherId": "T006"
+        },
+        {
+            "id": "L007",
+            "topic": "Cooking and Baking",
+            "category": "Life Skills",
+            "description": "Learn to prepare delicious meals and baked goods with hands-on practical sessions.",
+            "location": "25 Baker Street, Curepipe, Mauritius",
+            "price": 500,
+            "space": 5,
+            "icon": "fa-solid fa-utensils",
+            "image": "images/cooking.jpg",
+            "teacherId": "T007"
+        },
+        {
+            "id": "L008",
+            "topic": "Chemistry",
+            "category": "Academic",
+            "description": "Discover chemical reactions, laboratory techniques, and fundamental chemistry concepts.",
+            "location": "5 Science Drive, Reduit, Mauritius",
+            "price": 350,
+            "space": 8,
+            "icon": "fa-solid fa-flask",
+            "image": "images/chemistry.jpg",
+            "teacherId": "T008"
+        },
+        {
+            "id": "L009",
+            "topic": "Mathematics",
+            "category": "Academic",
+            "description": "Strengthen your problem-solving skills in algebra, geometry, and statistics.",
+            "location": "9 Number Lane, Rose Hill, Mauritius",
+            "price": 300,
+            "space": 10,
+            "icon": "fa-solid fa-calculator",
+            "image": "images/maths.jpg",
+            "teacherId": "T009"
+        },
+        {
+            "id": "L010",
+            "topic": "Coding",
+            "category": "Technology",
+            "description": "Learn programming fundamentals and build your first web apps using HTML, CSS, and JavaScript.",
+            "location": "1 Binary Boulevard, Ebène, Mauritius",
+            "price": 400,
+            "space": 6,
+            "icon": "fa-solid fa-code",
+            "image": "images/coding.jpg",
+            "teacherId": "T010"
+        }
+    ],
+    "teachers": [
+        {
+            "id": "T001",
+            "firstName": "Amelia",
+            "lastName": "Laurent",
+            "lessonIds": [
+                "L001"
+            ]
+        },
+        {
+            "id": "T002",
+            "firstName": "Daniel",
+            "lastName": "Morel",
+            "lessonIds": [
+                "L002"
+            ]
+        },
+        {
+            "id": "T003",
+            "firstName": "Sophie",
+            "lastName": "Duval",
+            "lessonIds": [
+                "L003"
+            ]
+        },
+        {
+            "id": "T004",
+            "firstName": "Kevin",
+            "lastName": "Thomas",
+            "lessonIds": [
+                "L004"
+            ]
+        },
+        {
+            "id": "T005",
+            "firstName": "Chloe",
+            "lastName": "Martin",
+            "lessonIds": [
+                "L005"
+            ]
+        },
+        {
+            "id": "T006",
+            "firstName": "Jason",
+            "lastName": "Wong",
+            "lessonIds": [
+                "L006"
+            ]
+        },
+        {
+            "id": "T007",
+            "firstName": "Nathan",
+            "lastName": "Perrin",
+            "lessonIds": [
+                "L007"
+            ]
+        },
+        {
+            "id": "T008",
+            "firstName": "Ethan",
+            "lastName": "Robert",
+            "lessonIds": [
+                "L008"
+            ]
+        },
+        {
+            "id": "T009",
+            "firstName": "Olivia",
+            "lastName": "Bernard",
+            "lessonIds": [
+                "L009"
+            ]
+        },
+        {
+            "id": "T010",
+            "firstName": "Maya",
+            "lastName": "Joseph",
+            "lessonIds": [
+                "L010"
+            ]
+        }
+    ]
+}
