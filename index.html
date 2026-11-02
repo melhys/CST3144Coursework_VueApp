@@ -4,21 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkillNest</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
     <div id="app">
 
-        <header class="header">
+        <header class="siteHeader">
             <div class="container d-flex justify-content-between align-items-center py-3">
                 <a href="#" class="brand" @click.prevent="showCart = false">
-                    <i class="fa-solid fa-graduation-cap"></i> {{title}}
+                    <i class="fa-solid fa-graduation-cap"></i> {{ title }}
                 </a>
-                <button class="btn cart-btn" @click="toggleCart" :disabledd="cartCout === 0">
-                    <i class="fa-solid fa-cart-shopping"></i> 
+
+                <div class="searchBox flex-grow-1" v-if="!showCart">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="form-control searchInput" v-model="searchText" placeholder="Search">
+                </div>
+
+                <button class="btn cartBtn" @click="toggleCart" :disabled="cartCount === 0" :title="showCart ? 'Back to lessons' : 'View cart'">
+                    <i class="fa-solid fa-cart-shopping"></i> {{ cartCount }}
                 </button>
             </div>
         </header>
@@ -27,19 +33,19 @@
             <div v-if="!showCart">
                 <section class="hero rounded-4 p-4 p-md-5 my-4">
                     <h1>Find the perfect after-school class</h1>
-                    <p class="mb-0">Sports, arts and academics for every student.</p>
+                    <p class="mb-0">Sports, arts and academics for every student. All skill levels are welcome.</p>
                 </section>
 
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                     <h2 class="h4 mb-0">Classes For You!</h2>
                     <div class="d-flex gap-2">
-                        <select class="form-select form-select-sm pill-select" v-model="sortBy">
+                        <select class="form-select form-select-sm sortSelect" v-model="sortBy">
                             <option value="topic">Subject</option>
                             <option value="location">Location</option>
                             <option value="price">Price</option>
                             <option value="space">Spaces</option>
                         </select>
-                        <select class="form-select form-select-sm pill-select" v-model="sortOrder">
+                        <select class="form-select form-select-sm sortSelect" v-model="sortOrder">
                             <option value="asc">Ascending</option>
                             <option value="desc">Descending</option>
                         </select>
@@ -47,40 +53,106 @@
                 </div>
 
                 <div v-if="loadError" class="alert alert-danger">{{ loadError }}</div>
+                <p v-if="sortedLessons.length === 0 && !loadError" class="text-muted">No classes match "{{ searchText }}"</p>
 
-
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                    <div class="col" v-for="lesson in sortedLessons" :key="lesson.id">
+                        <div class="card lessonCard h-100">
+                            <div class="lessonImgWrap" @click="openModal(lesson)">
+                                <img :src="imageUrl(lesson)" :alt="lesson.topic" class="lessonImg">
+                            </div>
+                            <div class="card-body d-flex flex-column px-3">
+                                <div class="d-flex justify-content-between align-items-start gap-2">
+                                    <h3 class="h6 lessonTitle mb-1" @click="openModal(lesson)">
+                                        <i :class="lesson.icon"></i> {{ lesson.topic }}
+                                    </h3>
+                                    <span class="price">Rs {{ lesson.price }}</span>
+                                </div>
+                                <p class="small text-muted text-truncate mb-1" :title="lesson.location">
+                                    <i class="fa-solid fa-location-dot"></i> {{ lesson.location }}
+                                </p>
+                                <p class="small mb-3" :class="{ lowStock: lesson.space > 0 && lesson.space <= 2 }">
+                                    <i class="fa-solid fa-users"></i> Spaces: {{ lesson.space }}
+                                </p>
+                                <button class="btn btnAdd mt-auto"
+                                        @click="addToCart(lesson)"
+                                        :disabled="lesson.space === 0">
+                                    {{ lesson.space > 0 ? 'Add to Cart' : 'Sold Out' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
+
 <script>
-    const lessons_json = 'data/data.json';
+    const lessonsUrl = 'data/data.json';
+    const imageBase = '';  
 
     Vue.createApp({
-        data(){
-            return{
+        data() {
+            return {
                 title: 'SkillNest',
                 lessons: [],
                 loadError: '',
-                cart: [],                
+                cart: [],
                 showCart: false,
-                selectedLesson: null,   
+                selectedLesson: null,
+                searchText:'',
                 sortBy: 'topic',
                 sortOrder: 'asc',
-                order: { name: '', phone: '' },
+                order: { name: '', phone: '' }
             };
         },
-        created(){
+        created() {
             this.fetchLessons();
         },
         computed: {
             cartCount() {
                 return this.cart.length;
+            },
+            filteredLessons(){
+                const text = this.searchText.trim().toLowerCase();
+                if(text === '') return this.lessons;
+                return this.lessons.filter(lesson =>
+                    lesson.topic.toLowerCase().includes(text) ||
+                    lesson.location.toLowerCase().includes(text) ||
+                    String(lesson.price).includes(text) ||
+                    String(lesson.space).includes(text)
+                );
+            },
+            sortedLessons() {
+                const key = this.sortBy;
+                const dir = this.sortOrder === 'asc' ? 1 : -1;
+                return [...this.filteredLessons].sort((a, b) => {
+                    if (typeof a[key] === 'string') return a[key].localeCompare(b[key]) * dir;
+                    return (a[key] - b[key]) * dir;
+                });
             }
         },
-        methods:{
-            
+        methods: {
+            async fetchLessons() {
+                try {
+                    const response = await fetch(lessonsUrl);
+                    if (!response.ok) throw new Error(`HTTP ${response.status} for ${lessonsUrl}`);
+                    const data = await response.json();
+                    this.lessons = data.lessons;
+                } catch (error) {
+                    this.loadError = `Lessons not loaded: ${error.message}`;
+                    console.error(error);
+                }
+            },
+            imageUrl(lesson) {
+                return imageBase + lesson.image;
+            },
+            // Placeholders 
+            openModal(lesson) {},
+            addToCart(lesson) {},
+            toggleCart() {}
         }
-    }).mount('#app')
-</script>    
+    }).mount('#app');
+</script>
 </body>
 </html>
