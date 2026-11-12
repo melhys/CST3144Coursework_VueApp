@@ -91,6 +91,9 @@
                                 <p class="small text-muted text-truncate mb-1" :title="lesson.location">
                                     <i class="fa-solid fa-location-dot"></i> {{ lesson.location }}
                                 </p>
+                                <p class="small text-muted mb-1">
+                                    <i class="fa-solid fa-chalkboard-user"></i> {{ teacherName(lesson) }}
+                                </p>                                
                                 <p class="small mb-3" :class="{ lowStock: lesson.space > 0 && lesson.space <= 2 }">
                                     <i class="fa-solid fa-users"></i> Spaces: {{ lesson.space }}
                                 </p>
@@ -116,6 +119,7 @@
             return {
                 title: 'SkillNest',
                 lessons: [],
+                teachers: [],
                 loadError: '',
                 cart: [],
                 showCart: false,
@@ -140,7 +144,8 @@
                     lesson.topic.toLowerCase().includes(text) ||
                     lesson.location.toLowerCase().includes(text) ||
                     String(lesson.price).includes(text) ||
-                    String(lesson.space).includes(text)
+                    String(lesson.space).includes(text) ||
+                    this.teacherName(lesson).toLowerCase().includes(text)
                 );
             },
             sortedLessons() {
@@ -170,6 +175,7 @@
                     if (!response.ok) throw new Error(`HTTP ${response.status} for ${lessonsUrl}`);
                     const data = await response.json();
                     this.lessons = data.lessons;
+                    this.teachers = data.teachers;
                 } catch (error) {
                     this.loadError = `Lessons not loaded: ${error.message}`;
                     console.error(error);
@@ -177,6 +183,10 @@
             },
             imageUrl(lesson) {
                 return imageBase + lesson.image;
+            },
+            teacherName(lesson) {
+                const teacher = this.teachers.find(teacher => teacher.id === lesson.teacherId);
+                return teacher ? `${teacher.firstName} ${teacher.lastName}` : 'TBA';
             },
             // Placeholders 
             openModal(lesson) {},
