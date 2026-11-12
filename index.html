@@ -23,7 +23,27 @@
                     <input type="text" class="form-control searchInput" v-model="searchText" placeholder="Search">
                 </div>
 
-                <button class="btn cartBtn" @click="toggleCart" :disabled="cartCount === 0" :title="showCart ? 'Back to lessons' : 'View cart'">
+                <div v-else class="cartPanel mt-4">
+                    <h2 class="h4 mb-3">Your Cart</h2>
+
+                    <p v-if="cartItems.length === 0" class="text-muted mb-0">Your cart is empty.</p>
+
+                    <div class="d-flex justify-content-between align-items-center py-3 border-bottom" v-for="item in cartItems" :key="item.lesson.id">
+                        <div>
+                            <h3 class="h6 mb-1"><i :class="item.lesson.icon"></i> {{ item.lesson.topic }}</h3>
+                            <p class="small text-muted mb-0">{{ item.lesson.location }}</p>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-1">Rs {{ item.lesson.price }} x {{ item.quantity }}</p>
+                            <button class="btn btnAdd btn-sm" @click="removeFromCart(item.lesson)">Remove</button>
+                        </div>
+                    </div>
+
+                    <p class="text-end fw-bold mt-3 mb-0" v-if="cartItems.length > 0">Total: Rs {{ cartTotal }}</p>
+                </div>
+                
+
+                <button class="btn cartBtn" @click="toggleCart" :disabled="cartCount === 0" >
                     <i class="fa-solid fa-cart-shopping"></i> {{ cartCount }}
                 </button>
             </div>
@@ -113,7 +133,7 @@
             cartCount() {
                 return this.cart.length;
             },
-            filteredLessons(){
+            filteredLessons() {
                 const text = this.searchText.trim().toLowerCase();
                 if(text === '') return this.lessons;
                 return this.lessons.filter(lesson =>
@@ -130,6 +150,17 @@
                     if (typeof a[key] === 'string') return a[key].localeCompare(b[key]) * dir;
                     return (a[key] - b[key]) * dir;
                 });
+            },
+            cartItems() {
+                const counts = {};
+                this.cart.forEach(id => { counts[id] = (counts[id] || 0) + 1; });
+                return Object.keys(counts).map(id => ({
+                    lesson: this.lessons.find(lesson => lesson.id === id),
+                    quantity: counts[id]
+                }));
+            },
+            cartTotal() {
+                return this.cartItems.reduce((sum, item) => sum + item.lesson.price * item.quantity, 0);
             }
         },
         methods: {
@@ -149,8 +180,17 @@
             },
             // Placeholders 
             openModal(lesson) {},
-            addToCart(lesson) {},
-            toggleCart() {}
+            removeFromCart(lesson) {},
+
+            addToCart(lesson) {
+                if (lesson.space > 0) {
+                    lesson.space --;
+                    this.cart.push(lesson.id);
+                }
+            },
+            toggleCart() {
+                this.showCart = !this.showCart;
+            }
         }
     }).mount('#app');
 </script>
