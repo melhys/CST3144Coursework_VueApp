@@ -1,5 +1,5 @@
 body {
-    color: #111827;
+    color: #0c1a38;
 }
 
 .siteHeader {
@@ -310,6 +310,12 @@ body {
 }
 
 .cartItemLocation {
+    font-size: 0.875em;
+    color: #6b7280;
+    margin: 0;
+}
+
+.cartItemTeacher {
     font-size: 0.875em;
     color: #6b7280;
     margin: 0;

@@ -97,6 +97,9 @@
                     <div>
                         <h3 class="cartItemTitle"><i :class="item.lesson.icon"></i> {{ item.lesson.topic }}</h3>
                         <p class="cartItemLocation">{{ item.lesson.location }}</p>
+                            <p class="cartItemTeacher">
+                                <i class="fa-solid fa-chalkboard-user"></i> {{ teacherName(item.lesson) }}
+                            </p>                        
                     </div>
                     <div class="cartItemRight">
                         <p class="cartItemPrice">Rs {{ item.lesson.price }} x {{ item.quantity }}</p>
@@ -128,7 +131,8 @@
                     searchText:'',
                     sortBy: 'topic',
                     sortOrder: 'asc',
-                    order: { name: '', phone: '' }
+                    order: { name: '', phone: '' },
+                    orderSubmitted: false
                 };
             },
             created() {
@@ -167,6 +171,15 @@
                 },
                 cartTotal() {
                     return this.cartItems.reduce((sum, item) => sum + item.lesson.price * item.quantity, 0);
+                },
+                nameValid() {
+                    return /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(this.order.name.trim());
+                },
+                phoneValid() {
+                    return /^[0-9]+$/.test(this.order.phone.trim());
+                },
+                canCheckout() {
+                    return this.nameValid && this.phoneValid && this.cart.length > 0;
                 }
             },
             methods: {
@@ -196,9 +209,13 @@
                     const teacher = this.teachers.find(teacher => teacher.id === lesson.teacherId);
                     return teacher ? `${teacher.firstName} ${teacher.lastName}` : 'TBA';
                 },
-                // Placeholders 
-                removeFromCart(lesson) {},
-
+                removeFromCart(lesson) {
+                    const index = this.cart.indexOf(lesson.id);
+                    if (index !== -1) {
+                        this.cart.splice(index, 1);
+                        lesson.space++;
+                    }
+                },
                 addToCart(lesson) {
                     if (lesson.space > 0) {
                         lesson.space --;
@@ -207,6 +224,9 @@
                 },
                 toggleCart() {
                     this.showCart = !this.showCart;
+                },
+                checkout() {
+                    this.orderSubmitted = true;
                 }
             }
         }).mount('#app');
