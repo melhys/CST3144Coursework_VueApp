@@ -346,3 +346,24 @@ body {
     min-height: 1rem;
     margin: 0.25rem 0 0.75rem;
 }
+
+/* checkout button */
+.btnCheckout {
+    background: #670043;
+    color: #fff;
+    border: 1px solid #670043;
+    border-radius: 9px;
+    padding: 0.6rem;
+}
+
+.btnCheckout:hover:not(:disabled) {
+    background: #4a0031;
+    border-color: #4a0031;
+    color: #fff;
+}
+
+.btnCheckout:disabled {
+    background: #d1d5db;
+    border-color: #d1d5db;
+    color: #fff;
+}
