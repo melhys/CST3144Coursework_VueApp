@@ -263,8 +263,12 @@
                             });
                             if (!updateResponse.ok) throw new Error(`Failed to update ${id}`);
                         }
-
-                        
+                        this.cart = [];
+                        this.order = { name: '', phone: ''};
+                        this.orderSubmitted = true;
+                    } catch (error) {
+                        console.error(error);
+                        alert('There was a problem placing your order. Please try again.');
                     }
                 }
             }
