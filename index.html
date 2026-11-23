@@ -237,8 +237,35 @@
                 toggleCart() {
                     this.showCart = !this.showCart;
                 },
-                checkout() {
-                    this.orderSubmitted = true;
+                async checkout() {
+                    const orderData = {
+                        name: this.order.name,
+                        phone: this.order.phone,
+                        lessonIds: [...this.cart],
+                        numberOfSpaces: this.cart.length
+                    };
+
+                    try {
+                        const orderResponse = await fetch(`${LESSON_URL}/orders`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json'},
+                            body: JSON.stringify(orderData)
+                        });
+                        if (!orderResponse.ok) throw new Error('Failed to save order');
+
+                        const uniqueIds = [...new Set(this.cart)];
+                        for (const id of uniqueIds) {
+                            const lesson = this.lessons.find(l => l.id === id);
+                            const updateResponse = await fetch(`${LESSON_URL}/lessons/${id}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json'},
+                                body: JSON.stringify({space: lesson.space})
+                            });
+                            if (!updateResponse.ok) throw new Error(`Failed to update ${id}`);
+                        }
+
+                        
+                    }
                 }
             }
         }).mount('#app');
