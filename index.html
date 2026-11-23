@@ -129,9 +129,8 @@
     </div>
 
     <script>
-        const LESSON_URL = "https://cst3144coursework-server.onrender.com"
-        const lessonsUrl = 'data/data.json';
-        const imageBase = '';  
+        const LESSON_URL = "https://m01038115-skillnest.onrender.com"
+        const imageBase = "https://m01038115-skillnest.onrender.com";  
 
         Vue.createApp({
             data() {
@@ -188,7 +187,7 @@
                     return this.cartItems.reduce((sum, item) => sum + item.lesson.price * item.quantity, 0);
                 },
                 nameValid() {
-                    return /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(this.order.name.trim());
+                    return /^[A-Za-z]+$/.test(this.order.name.trim());
                 },
                 phoneValid() {
                     return /^[0-9]+$/.test(this.order.phone.trim());
@@ -200,20 +199,18 @@
             methods: {
                 async fetchLessons() {
                     try {
-                        const response = await fetch(lessonsUrl);
-                        if (!response.ok) throw new Error(`HTTP ${response.status} for ${lessonsUrl}`);
-                        const data = await response.json();
-                        this.lessons = data.lessons;
-                        this.teachers = data.teachers;
+                        //lessons
+                        const lessonsResponse = await fetch(`${LESSON_URL}/lessons`);
+                        if (!lessonsResponse.ok) throw new Error(`HTTP ${lessonsResponse.status}`);
+                        this.lessons = await lessonsResponse.json();
 
-                        // const response = await fetch(LESSON_URL);
-                        // fetch (`${LESSON_URL}/lessons`)
-                        //     .then(res => res.json())
-                        //     .then(data => {
-                        //         this.lessons = data;
-                        //     })
+                        //teachers
+                        const teachersResponse = await fetch(`${LESSON_URL}/teachers`);
+                        if (!teachersResponse.ok) throw new Error(`HTTP ${teachersResponse.status}`);
+                        this.teachers = await teachersResponse.json();
+
                     } catch (error) {
-                        this.loadError = `Lessons not loaded: ${error.message}`;
+                        this.loadError = `Data not loaded: ${error.message}`;
                         console.error(error);
                     }
                 },
