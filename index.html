@@ -51,6 +51,10 @@
                             <option value="asc">Ascending</option>
                             <option value="desc">Descending</option>
                         </select>
+                        <select class="form-select sortSelect" v-model="selectedTeacherId">
+                            <option value="">All teachers</option>
+                            <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">{{ teacher.firstName }} {{ teacher.lastName }}</option>
+                        </select>
                     </div>
                 </div>
 
@@ -58,7 +62,7 @@
                 <p v-if="sortedLessons.length === 0 && !loadError" class="mutedText">No classes match "{{ searchText }}"</p>
 
                 <div class="lessonGrid">
-                    <div class="card lessonCard" v-for="lesson in sortedLessons" :key="lesson.id">
+                    <div class="card lessonCard" v-for="lesson in displayedLessons" :key="lesson.id">
                         <div class="lessonImgWrap" @click="openModal(lesson)">
                             <img :src="imageUrl(lesson)" :alt="lesson.topic" class="lessonImg">
                         </div>
@@ -147,7 +151,7 @@
                     sortOrder: 'asc',
                     order: { name: '', phone: '' },
                     orderSubmitted: false,
-
+                    selectedTeacherId: ''
                 };
             },
             created() {
