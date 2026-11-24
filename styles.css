@@ -270,11 +270,6 @@ body {
     background: #d1d5db;
 }
 
-.modalImg {
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-}
-
 .cartPanel {
     border: 1px solid #e5e7eb;
     border-radius: 1rem;

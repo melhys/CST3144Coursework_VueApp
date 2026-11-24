@@ -59,16 +59,16 @@
                 </div>
 
                 <div v-if="loadError" class="alert alert-danger">{{ loadError }}</div>
-                <p v-if="sortedLessons.length === 0 && !loadError" class="mutedText">No classes match "{{ searchText }}"</p>
+                <p v-if="displayedLessons.length === 0 && !loadError" class="mutedText">No classes match "{{ searchText }}"</p>
 
                 <div class="lessonGrid">
                     <div class="card lessonCard" v-for="lesson in displayedLessons" :key="lesson.id">
-                        <div class="lessonImgWrap" @click="openModal(lesson)">
+                        <div class="lessonImgWrap">
                             <img :src="imageUrl(lesson)" :alt="lesson.topic" class="lessonImg">
                         </div>
                         <div class="lessonBody">
                             <div class="lessonHeader">
-                                <h3 class="lessonTitle" @click="openModal(lesson)">
+                                <h3 class="lessonTitle">
                                     <i :class="lesson.icon"></i> {{ lesson.topic }}
                                 </h3>
                                 <span class="price">Rs {{ lesson.price }}</span>
@@ -134,7 +134,7 @@
 
     <script>
         const LESSON_URL = "https://m01038115-skillnest.onrender.com"
-        const imageBase = "https://m01038115-skillnest.onrender.com";  
+        const imageBase = "https://m01038115-skillnest.onrender.com/";  
 
         Vue.createApp({
             data() {
@@ -145,7 +145,6 @@
                     loadError: '',
                     cart: [],
                     showCart: false,
-                    selectedLesson: null,
                     searchText:'',
                     sortBy: 'topic',
                     sortOrder: 'asc',
