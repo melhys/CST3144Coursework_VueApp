@@ -146,7 +146,8 @@
                     sortBy: 'topic',
                     sortOrder: 'asc',
                     order: { name: '', phone: '' },
-                    orderSubmitted: false
+                    orderSubmitted: false,
+                    
                 };
             },
             created() {
@@ -156,21 +157,10 @@
                 cartCount() {
                     return this.cart.length;
                 },
-                filteredLessons() {
-                    const text = this.searchText.trim().toLowerCase();
-                    if(text === '') return this.lessons;
-                    return this.lessons.filter(lesson =>
-                        lesson.topic.toLowerCase().includes(text) ||
-                        lesson.location.toLowerCase().includes(text) ||
-                        String(lesson.price).includes(text) ||
-                        String(lesson.space).includes(text) ||
-                        this.teacherName(lesson).toLowerCase().includes(text)
-                    );
-                },
                 sortedLessons() {
                     const key = this.sortBy;
                     const dir = this.sortOrder === 'asc' ? 1 : -1;
-                    return [...this.filteredLessons].sort((a, b) => {
+                    return [...this.lessons].sort((a, b) => {
                         if (typeof a[key] === 'string') return a[key].localeCompare(b[key]) * dir;
                         return (a[key] - b[key]) * dir;
                     });
@@ -196,6 +186,11 @@
                     return this.nameValid && this.phoneValid && this.cart.length > 0;
                 }
             },
+            watch: {
+                searchText() {
+                    this.searchLessons();
+                }
+            },
             methods: {
                 async fetchLessons() {
                     try {
@@ -214,6 +209,19 @@
                         console.error(error);
                     }
                 },
+                async searchLessons() {
+                    if (this.searchText.trim() === '') {
+                        await this.fetchLessons();
+                        return;
+                    }
+                    try {
+                        const response = await fetch(`${LESSON_URL}/search/${this.searchText}`);
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        this.lessons = await response.json();
+                    } catch (error) {
+                        console.error("Search failed:", error);
+                    }
+                },                
                 imageUrl(lesson) {
                     return imageBase + lesson.image;
                 },
