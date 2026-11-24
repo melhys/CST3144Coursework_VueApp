@@ -147,7 +147,7 @@
                     sortOrder: 'asc',
                     order: { name: '', phone: '' },
                     orderSubmitted: false,
-                    
+
                 };
             },
             created() {
@@ -164,6 +164,13 @@
                         if (typeof a[key] === 'string') return a[key].localeCompare(b[key]) * dir;
                         return (a[key] - b[key]) * dir;
                     });
+                },
+                displayedLessons() {
+                    let result = this.sortedLessons;
+                    if (this.selectedTeacherId) {
+                        result = result.filter(lesson => lesson.teacherId === this.selectedTeacherId);
+                    }
+                    return result;
                 },
                 cartItems() {
                     const counts = {};
